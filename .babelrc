@@ -1,0 +1,6 @@
+{
+    "presets": [
+        // babelの挙動がおかしい
+        "@babel/preset-env"
+    ]
+}

@@ -1,0 +1,20 @@
+h1 {
+    font-size: 2rem;
+    transition: all .25s;
+    color: blue;
+    display: flex;
+
+    &:hover {
+        transform: translateX(50px);
+        color: red;
+    }
+}
+
+.bg {
+    background-image: url("../src/img/undraw_Questions_q&a.png");
+    height: 100px;
+    width: 100px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
