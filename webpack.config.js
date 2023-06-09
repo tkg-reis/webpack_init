@@ -8,7 +8,10 @@ module.exports = {
     entry: "./src/index.js",
     // 監視対象を拡大する
     // entry: ["./src/left.js","./src/right.js"],
-
+    devServer: {
+        static: "dist",
+        open: true,
+    },
     // 監視対象を拡大して、なおかつバンドルするファイル数を決められる。またバンドル時にファイルが分かれるのでweb制作で使える。ex.aはswiperファイル、bはgsapファイルなど。＊1に続く
     // entry: {
     //     left: "./src/left.js",
