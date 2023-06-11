@@ -1,6 +1,8 @@
-    module.exports = {
-        plugins: [
-            // 問題点＝＞ベンダープレフィックスがつかない
-        require('autoprefixer')()
-        ]
-    }
+module.exports = {
+    plugins: [
+        require('autoprefixer')({
+            // autoprefixerのオプションを指定
+            grid: true // CSS Gridに対する自動ベンダープレフィックスを有効にする
+        })
+    ]
+};

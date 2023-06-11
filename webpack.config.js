@@ -33,21 +33,39 @@ module.exports = {
                 exclude: /node_modules/,
                 use: "babel-loader",
             },
+            // {
+            //     // 正規表現 $は終端を、\はエスケープ処理
+            //     test: /\.scss$/,
+            //     use: [
+            //         // この記述は下から実行されるので注意！！
+            //         // styleタグ形式でhtmlファイルに注入するためのローダー
+            //         "style-loader",
+            //         // cssにバンドルする鉄板
+            //         "css-loader",
+            //         // autoprefixer
+            //         "postcss-loader",
+            //         // sassをバンドルする鉄板
+            //         "sass-loader",
+            //     ],
+            //     // ベンダープレフィックスの付与など
+            // },
             {
-                // 正規表現 $は終端を、\はエスケープ処理
                 test: /\.scss$/,
                 use: [
-                    // この記述は下から実行されるので注意！！
-                    // styleタグ形式でhtmlファイルに注入するためのローダー
                     "style-loader",
-                    // cssにバンドルする鉄板
                     "css-loader",
-                    // autoprefixer
-                    "postcss-loader",
-                    // sassをバンドルする鉄板
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    require('autoprefixer')()
+                                ]
+                            }
+                        }
+                    },
                     "sass-loader",
                 ],
-                // ベンダープレフィックスの付与など
             },
             {
                 // ?は手前(e)があるかないかを判定
