@@ -30,8 +30,8 @@
     "webpack-dev-server": "^4.15.0"
   },
   "browserslist": [
-    "last 2 versions",
-    "> 1%",
-    "not dead"
+    "> 3% in JP",
+    "not IE 11",
+    "last 1 versions"
   ]
 }
