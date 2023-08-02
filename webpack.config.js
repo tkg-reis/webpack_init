@@ -1,4 +1,5 @@
 const path = require("path");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     // 開発環境なので見返せるようにバンドル時はコードが読めるようになっている。逆にbuildにすると可読無理。
@@ -21,7 +22,7 @@ module.exports = {
         // 絶対パスの記述が必要になるので、node_modulesからpath（絶対パスの記述に必要なモジュール）を変数に代入。
         path: path.resolve(__dirname, "dist"),
         // ＊1 [name].bundle.jsを入れることで先ほどの複数のバンドルファイルを持ち合わせたい場合はこちらを使用。ex.bundle => left.bundle.js,right.bundle.jsが生成される。
-        filename: "bundle.js",
+        filename: "[name].js",
         publicPath: "/"
     },
     // 基本loaderとつくものはbundleモジュールのことを指す。
@@ -30,8 +31,13 @@ module.exports = {
             {
                 // 
                 test: /\.js$/,
+                // 対象外を指定する
                 exclude: /node_modules/,
-                use: "babel-loader",
+                // オブジェクトリテラル記述の場合は"enforce2 : "pre"を指定して順番による思いがけない挙動を回避する
+                use: [
+                    "babel-loader",
+                    "eslint-loader"
+                ]
             },
             // {
             //     // 正規表現 $は終端を、\はエスケープ処理
@@ -53,6 +59,8 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     "style-loader",
+                    // 下記を使用することで、js,cssのファイルを分けられる。
+                    // MiniCssExtractPlugin.loader,
                     "css-loader",
                     {
                         loader: "postcss-loader",
@@ -71,22 +79,33 @@ module.exports = {
             },
             {
                 // ?は手前(e)があるかないかを判定
-                test: /\.(png | jpe?g | jpg | svg | gif)$/,
+                // woff2,ttf,eotなどのweb fontがある場合がある。ios,windowsで対応させるためgoogle fontのようなもの。
+                test: /\.(png | jpe?g | svg | gif| woff2? | ttf | eot)$/,
                 use: [
                     // オプションを記述する際はオブジェクトリテラルで情報を渡す。必要がない場合は、配列形式で問題ない。他のローダーがない場合は、配列が省略できる。
                     {
                         loader: "file-loader",
                         options: {
                             // extはファイル拡張子を指す
+                            // [contenthash]を指定することで、ハッシュ値になる！ハッシュはファイルを適正化するために使われる。1回目のファイルにアクセスする場合は初回は、サーバに情報を取りに行っているが、2回目以降はメモリやディスクのキャッシュ処理に変わる。
+                            // hash:ビルドしたときの番号を付ける
+                            // contenthash:生成されたランダムな番号を付ける
+                            // chunkhash:生成されたランダムな番号を付ける（chunkに基づいて）
                             name: "[name].[ext]",
                             // 監視ファイルの名前
                             outputPath: "img",
+                            // http://も指定可能
                             publicPath: "/img/",
                         }
                     }
                 ],
             }
         ]
-    }
-
+    },
+    // plugins: [
+    //     new MiniCssExtractPlugin({
+    //         filename: "[name].[hash].css",
+    //         chunkFilename: "[name].[hash].css"
+    //     })
+    // ]
 }

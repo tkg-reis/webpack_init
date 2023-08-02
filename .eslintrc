@@ -1,0 +1,29 @@
+{
+    "env": {
+        // ブラウザ上で動作するenv
+        "browser": true,
+        // es2017の文法に則って動作
+        "es2017" : true
+    },
+
+    "extends" : "eslint:recommended",
+    "parser" : "babel-eslint",
+    // 下記はeslint内で意図的に指示を与えるための構文
+    "parserOptions": {
+        //上記に記載済み
+        "ecmaVersion": 2017,
+        "sourceType": "module"
+    },
+    "globals": {
+        // globalsを意図的に定義してエラーを回避することも可能
+        "jQuery": "readonly",
+        "$": "readonly"
+    },
+    "rules": {
+        "no-undef": 0,
+        // セミコロンがない場合でもエラーにする
+        "semi" :[
+            "error", "always"
+        ]
+    }
+}
